@@ -7,7 +7,7 @@ echo "Compiling..."
 npm run build
 
 echo "Uploading to alexrowe.net..."
-rsync -avh "$DIR/dist/" alexrowe@docs.alexrowe.net:~/home/ --delete
+rsync -avh "$DIR/dist/" alexrowe@docs.alexrowe.net:~/home/ 
 
 echo "Building node modules..."
 ssh alexrowe@docs.alexrowe.net "cd ~/home/ && npm install --production"

@@ -2,12 +2,12 @@
   .title 
     a(href='/') Alex Rowe
   ul
-    -
-      let allLinks = public.partials._data.links;
-      for (let file of public.blog._contents){
-        let name = file.split('.')[0];
-        allLinks[2].links.push({ icon: 'file-o', href: 'blog/' + name, text: name });
-      }
+    - let allLinks = public.partials._data.links.slice();
+      //- for (let file of public.blog._contents){
+      //-   let name = file.split('.')[0];
+      //-   console.log(file);
+      //-   allLinks[2].links.push({ icon: 'file-o', href: 'blog/' + name, text: name });
+      //- }
     
     
     - for (var i in allLinks) {

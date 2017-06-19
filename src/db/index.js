@@ -9,7 +9,7 @@ let sessions = db.get('sessions');
 export default db;
 
 export function findUser(name, password) {
-  return db.get('users').findOne({
+  return users.findOne({
     name,
     password
   });

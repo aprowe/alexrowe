@@ -21,17 +21,17 @@
           "text": "paper loader",
           "icon": "file-o",
           "href": "projects/paper_loader"
-        }, {
-          "text": "evolution sim",
-          "icon": "file-o",
-          "href": "projects/evo_sim"
         }
       ]
     }, {
       "text": "blog",
       "icon": "folder-o",
       "href": "blog",
-      "links": []
+      "links": [{
+        "text": "welcome",
+        "href": "blog/welcome",
+        "icon": "file-o"
+      }]
     }, {
       "text": "about",
       "icon": "file-o",

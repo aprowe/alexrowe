@@ -96,7 +96,7 @@ var sessions = db.get('sessions');
 
 exports.default = db;
 function findUser(name, password) {
-  return db.get('users').findOne({
+  return users.findOne({
     name: name,
     password: password
   });
@@ -306,6 +306,11 @@ router.get('/', function (req, res, next) {
   next();
 });
 
+router.get('/test', function (req, res, next) {
+  res.json({ works: true });
+  next();
+});
+
 exports.default = router;
 
 /***/ }),
@@ -369,11 +374,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var app = (0, _express2.default)();
 
 // Define Middleware and routes
-app.use((0, _cookieParser2.default)()).use(_sessionHandler.getSession).use(_express2.default.static(__dirname + '/../harp'));
+app.use((0, _cookieParser2.default)()).use(_sessionHandler.getSession).use(_express2.default.static(__dirname + '/../static', {
+  extensions: ['html']
+}));
 
 // Only use harp for development
 if (undefined !== 'production') {
-  app.use(__webpack_require__(9).mount(__dirname + '/../harp'));
+  app.use(__webpack_require__(9).mount(__dirname + '/../static'));
 }
 
 app.use('/admin', _basicAuth2.default).use(_bodyParser2.default.json()).use(_routes2.default).use(_sessionHandler.saveSession);

@@ -6,6 +6,7 @@
 body {
   background: $background-color;
   font-family: Operator Mono;
+  // font-family: Source sans pro;
   color: $text-color;
   font-size: $size;
   padding: 0px;
@@ -20,6 +21,18 @@ body {
   margin-left: $sidebar-width;
   height: 100vh;
   max-width: 900px;
+}
+
+hr {
+  opacity: 0.5;
+}
+
+strong, b {
+  color: $orange;
+}
+
+emph {
+  color: $light-teal;
 }
 
 h1 {
@@ -75,6 +88,11 @@ a {
 
 }
 
+.date {
+  margin-top: 5px;
+  color: $red;
+  font-size: 0.8em;
+}
 
 .subtitle {
   font-size: 1em;

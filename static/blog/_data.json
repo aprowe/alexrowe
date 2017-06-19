@@ -1,6 +1,7 @@
 {
-  "file": {
+  "welcome": {
     "title": "Welcome",
-    "subtitle": "a new blog"
+    "subtitle": "the first post",
+    "date": "June 18, 2017"
   }
 }
