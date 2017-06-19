@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 6);
+/******/ 	return __webpack_require__(__webpack_require__.s = 10);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -77,16 +77,20 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.findUser = findUser;
+exports.findSession = findSession;
+exports.insertSession = insertSession;
 
-var _monk = __webpack_require__(8);
+var _monk = __webpack_require__(11);
 
 var _monk2 = _interopRequireDefault(_monk);
 
-var _config = __webpack_require__(3);
+var _config = __webpack_require__(2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var db = (0, _monk2.default)(_config.MONGO_URL);
+var users = db.get('users');
+var sessions = db.get('sessions');
 
 exports.default = db;
 function findUser(name, password) {
@@ -96,8 +100,70 @@ function findUser(name, password) {
   });
 }
 
+function findSession(session_id) {
+  return sessions.findOne(session_id);
+}
+
+function insertSession(session) {
+  if (!session._id) {
+    return sessions.insert(session);
+  } else {
+    return sessions.update(session._id, session);
+  }
+}
+
 /***/ }),
 /* 1 */
+/***/ (function(module, exports) {
+
+module.exports = require("lodash");
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _lodash = __webpack_require__(1);
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// Development / default Config
+var config = {
+  PORT: 3000,
+  MONGO_URL: 'mongodb://localhost/api'
+};
+
+// Production Config
+/**
+ * Config Variables
+ */
+
+var prodConfig = {
+  PORT: 80
+};
+
+if (undefined == 'production') {
+  config = _lodash2.default.merge(config, prodConfig);
+}
+
+exports.default = config;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+module.exports = require("express");
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -110,7 +176,7 @@ exports.default = authenticate;
 
 var _db = __webpack_require__(0);
 
-var _lodash = __webpack_require__(7);
+var _lodash = __webpack_require__(1);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -154,6 +220,7 @@ function authenticate(req, res, next) {
 
     // Attach to request
     req.user = user;
+    req.session.user_id = user._id;
 
     // Continue
     next();
@@ -161,13 +228,7 @@ function authenticate(req, res, next) {
 }
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-module.exports = require("express");
-
-/***/ }),
-/* 3 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -176,47 +237,48 @@ module.exports = require("express");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-/**
- * Config Variables
- */
+exports.getSession = getSession;
+exports.saveSession = saveSession;
 
-var PORT = exports.PORT = 3000;
-var MONGO_URL = exports.MONGO_URL = 'mongodb://localhost/api';
+var _db = __webpack_require__(0);
 
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
+var _lodash = __webpack_require__(1);
 
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _express = __webpack_require__(2);
-
-var _express2 = _interopRequireDefault(_express);
-
-var _basicAuth = __webpack_require__(1);
-
-var _basicAuth2 = _interopRequireDefault(_basicAuth);
+var _lodash2 = _interopRequireDefault(_lodash);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var router = _express2.default.Router();
+function getSession(req, res, next) {
+  var session_id = req.cookies.session_id;
 
-router.get('/', function (req, res) {
-  res.json({ hi: req.user.name });
-});
+  // If a session is present
+  if (session_id) {
+    return (0, _db.findSession)(session_id).then(function (session) {
+      req.session = session;
+      next();
+    });
+  }
 
-exports.default = router;
+  // Create a new session object
+  var session = {
+    date_created: new Date()
+  };
 
-/***/ }),
-/* 5 */
-/***/ (function(module, exports) {
+  // Create a new session in the database
+  return (0, _db.insertSession)(session).then(function (session) {
+    res.cookie('session_id', session._id);
+    req.session = session;
+    next();
+  });
+}
 
-module.exports = require("body-parser");
+function saveSession(req, res, next) {
+  if (req.session) {
+    (0, _db.insertSession)(req.session);
+  }
+
+  next();
+}
 
 /***/ }),
 /* 6 */
@@ -225,27 +287,81 @@ module.exports = require("body-parser");
 "use strict";
 
 
-var _express = __webpack_require__(2);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _express = __webpack_require__(3);
 
 var _express2 = _interopRequireDefault(_express);
 
-var _bodyParser = __webpack_require__(5);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var router = _express2.default.Router();
+
+router.get('/', function (req, res, next) {
+  res.json(req.session);
+  next();
+});
+
+exports.default = router;
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports) {
+
+module.exports = require("body-parser");
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports) {
+
+module.exports = require("cookie-parser");
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports) {
+
+module.exports = require("harp");
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(__dirname) {
+
+var _express = __webpack_require__(3);
+
+var _express2 = _interopRequireDefault(_express);
+
+var _bodyParser = __webpack_require__(7);
 
 var _bodyParser2 = _interopRequireDefault(_bodyParser);
+
+var _cookieParser = __webpack_require__(8);
+
+var _cookieParser2 = _interopRequireDefault(_cookieParser);
+
+var _harp = __webpack_require__(9);
+
+var _harp2 = _interopRequireDefault(_harp);
 
 var _db = __webpack_require__(0);
 
 var _db2 = _interopRequireDefault(_db);
 
-var _basicAuth = __webpack_require__(1);
+var _basicAuth = __webpack_require__(4);
 
 var _basicAuth2 = _interopRequireDefault(_basicAuth);
 
-var _routes = __webpack_require__(4);
+var _sessionHandler = __webpack_require__(5);
+
+var _routes = __webpack_require__(6);
 
 var _routes2 = _interopRequireDefault(_routes);
 
-var _config = __webpack_require__(3);
+var _config = __webpack_require__(2);
 
 var config = _interopRequireWildcard(_config);
 
@@ -257,20 +373,22 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var app = (0, _express2.default)();
 
 // Define Middleware and routes
-app.use(_basicAuth2.default).use(_routes2.default).use(_bodyParser2.default.json());
+app.use((0, _cookieParser2.default)()).use(_sessionHandler.getSession).use(_express2.default.static(__dirname + '/../public')).use('/admin', _basicAuth2.default).use(_bodyParser2.default.json()).use(_routes2.default).use(_sessionHandler.saveSession);
+
+// Only use harp for development
+if (undefined !== 'production') {
+  app.use(_harp2.default.mount(__dirname + '/../public'));
+}
+
+console.log(undefined);
 
 app.listen(config.PORT, function () {
   console.log('Listening on port ' + config.PORT);
 });
+/* WEBPACK VAR INJECTION */}.call(exports, "src"))
 
 /***/ }),
-/* 7 */
-/***/ (function(module, exports) {
-
-module.exports = require("lodash");
-
-/***/ }),
-/* 8 */
+/* 11 */
 /***/ (function(module, exports) {
 
 module.exports = require("monk");

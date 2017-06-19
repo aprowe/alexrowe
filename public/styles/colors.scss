@@ -1,0 +1,45 @@
+$very-light-gray:   #EEFFFF;
+$light-gray:        #B2CCD6;
+$gray:              #373b41;
+$dark-gray:         #282a2e;
+$very-dark-gray:    #263238;
+
+$teal:              #009688;
+$light-teal:        #73d1c8;
+$green:             #C3E88D;
+$cyan:              #89DDF3;
+$blue:              #82AAFF;
+$indigo:            #7986CB;
+$purple:            #C792EA;
+$pink:              #FF5370;
+$red:               #F07178;
+$strong-orange:     #F78C6A;
+$orange:            #FFCB6B;
+$light-orange:      #FFE082;
+
+// General colors
+$text-color: $very-light-gray;
+$cursor-color: $teal;
+$background-color: $very-dark-gray;
+$selection-color: lighten($background-color, 10%);
+$comment-color: lighten($very-dark-gray, 20%);
+
+$h1-color: $very-light-gray;
+$h2-color: $pink;
+
+// Guide colors
+$wrap-guide-color: $dark-gray;
+$indent-guide-color: lighten($background-color, 2.5%);
+$invisible-character-color: $gray;
+
+// For find and replace markers
+$result-marker-color: $light-gray;
+$result-marker-color-selected: white;
+
+// Gutter colors
+$gutter-text-color: rgba($text-color, 0.7);
+$gutter-text-color-selected: $gutter-text-color;
+$gutter-background-color: darken($background-color, 5%);
+$gutter-background-color-selected: darken($background-color, 10%);
+
+$size: 12pt;

@@ -1,11 +1,10 @@
 import express from 'express';
-import basicAuth from './middleware/basicAuth';
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.json({hi: req.user.name});
+router.get('/', (req, res, next) => {
+  res.json(req.session);
+  next();
 });
-
 
 export default router;

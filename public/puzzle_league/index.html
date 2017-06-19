@@ -1,0 +1,158 @@
+<html>
+    <head>
+    <title>Puzzle League</title>
+    <script src='lib/jquery.min.js'></script>
+    <script src="lib/createjs.js"></script>
+    <script src="lib/jquery.fullscreen.min.js"></script>
+    <script src="lib/cookies.js"></script>
+    <script src='puzzle.js'></script>
+    <link rel='stylesheet' href='assets/css/main.css'/>
+    </head>
+    <body class='state-loading'>
+        <div class='loading'>
+            <h2> Loading...</h2>
+        </div>
+
+        <div class='wallpaper'>
+        </div>
+
+        <div class='main'>
+            <h1>The Puzzle League</h1>
+            <div class='menu active' id='main' >
+                <div data-action='startSingle'>Single Player</div>
+                <div data-action='vsFriend' >Vs Friend</div>
+                <div data-action='vsComputer'>Vs Computer</div>
+                <div data-menu='settings' >Settings</div>
+                <div data-menu='credits' >Credits</div>
+            </div>
+
+            <div class='menu' id='settings'>
+                <div data-menu='controls'>Controls</div>
+                <div data-action='fullscreen'>Toggle Fullscreen</div>
+                <div data-menu='main'>Back</div>
+            </div>
+
+
+            <div class='menu' style='font-size:150%' id='credits'>
+                <p>
+                    <span> Coding, Graphics and Music by <br/> </span>
+                    <a href='http://rowealex.com' class='color'>
+                        <h2>Alex Rowe</h2>
+                    </a>
+                    <span><a class='color' href='http://github.com/aprowe/PuzzleLeague'>View source on Github</a></span>
+                    <br/>
+                    <br/>
+                    <span>Gameplay based on 'Pokemon Puzzle League'</span>
+                    <br/>
+                </p>
+                <div data-menu='main'>Back</div>
+            </div>
+
+            <div class='menu' style='font-size: 200%' id='controls'>
+                <p>
+                    <h2>Player 1:</h2>
+                    Move: Arrow Keys  <br>
+                    Swap: Space / M <br>
+                    Pause: ESC / P
+
+                    <h2>Player 2:</h2>
+                    Move: W,A,S,D <br>
+                    Swap: Shift / Q<br>
+                </p>
+                <div data-menu='main'>Back</div>
+            </div>
+        </div>
+
+        <div  class='pause menu' id='pause-settings' >
+            <div data-menu='pause-controls'>Controls</div>
+            <div data-action='fullscreen'>Toggle Fullscreen</div>
+            <div data-menu='pause'>Back</div>
+        </div>
+
+        <div class='pause menu' id='pause-controls' >
+            <p>
+                <h2>Player 1:</h2>
+                Move: Arrow Keys  <br>
+                Swap: Space / M <br>
+                Pause: ESC / P
+
+                <h2>Player 2:</h2>
+                Move: W,A,S,D <br>
+                Swap: Shift / Q<br>
+            </p>
+
+            <div data-menu='pause'>Back</div>
+        </div>
+
+        <div  class='pause menu' id='pause' >
+            <div data-action='continue'>Continue</div>
+            <div data-menu='pause-settings'>Settings</div>
+            <div data-action='exit'>Exit game</div>
+        </div>
+
+        <div class='puzzle-content'>
+            <div class='puzzle-container' id='player-0'>
+                <div class='scoreboard'>
+                    <table>
+                    <tr>
+                        <td>
+                            Score:
+                        </td>
+                        <td class='color'>
+                            <span class='score'></span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            Speed:
+                        </td>
+                        <td class='speed color'>
+                            0
+                        </td>
+                    </tr>
+
+                    </table>
+                    <br>
+                    <div style='font-size: 50%'>Local High Scores</div>
+                    <table id='highscores' style='text-align: center'>
+                    </table>
+
+                </div>
+                <canvas class='puzzle' id='puzzle-0'></canvas>
+                <div class='combos'>
+                    <div>Combos</div>
+                </div>
+            </div>
+
+            <div class='puzzle-container' id='player-1'>
+                <canvas class='puzzle' id='puzzle-1'></canvas>
+                <div class='scoreboard' style='display:none'>
+                <table>
+                    <tr>
+                        <td>
+                            Score:
+                        </td>
+                        <td class='color'>
+                            <span class='score'></span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            Speed:
+                        </td>
+                        <td class='speed color'>
+                            0
+                        </td>
+                    </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class='message'>
+            Hit return to exit
+        </div>
+
+    </body>
+</html>

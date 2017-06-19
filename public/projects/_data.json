@@ -1,0 +1,18 @@
+{
+  "evo": {
+    "title": "EvoJs",
+    "subtitle": "Evolutionary Algorithms for Node"
+  },
+  "/": {
+    "title": "Alex Rowe",
+    "subtitle": "innovative software developer"
+  },
+  "puzzle_league": {
+    "title": "Puzzle League",
+    "subtitle": "Puzzle Browser Game"
+  },
+  "paper_loader": {
+    "title": "Paper Loader",
+    "subtitle": "PaperJS Loader for Webpack"
+  }
+}

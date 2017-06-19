@@ -1,0 +1,99 @@
+@import "colors.scss";
+@import "font-awesome.scss";
+
+@import "navbar.scss";
+
+body {
+  background: $background-color;
+  font-family: Operator Mono;
+  color: $text-color;
+  font-size: $size;
+  padding: 0px;
+  margin: 0px;
+}
+
+.container {
+  box-sizing: border-box;
+  background: $background-color;
+
+  padding: 20px;
+  margin-left: $sidebar-width;
+  height: 100vh;
+  max-width: 900px;
+}
+
+h1 {
+  color: $h1-color;
+  margin-top: 0em;
+  margin-bottom: 0em;
+  letter-spacing: 1px;
+  font-size: 3em;
+
+  &:after {
+    display: block;
+    // content: '---------------------------';
+
+    color: $text-color;
+    font-size: $size;
+  }
+}
+
+h2 {
+  font-size: $size;
+  color: $light-teal;
+  margin-bottom: 0;
+  margin-top: $size * 2;
+  &:after {
+    display: block;
+    content: '-----------------------';
+  }
+}
+
+h3 {
+  font-size: $size;
+  color: $pink;
+  margin-bottom: 0;
+  margin-top: $size * 1.5;
+}
+
+code {
+  color: $light-gray;
+}
+
+a {
+  color: $strong-orange;
+
+  text-decoration: none;
+
+  &:visited {
+    color: $strong-orange;
+  }
+
+  &:hover {
+    color: darken($strong-orange, 10%);
+  }
+
+}
+
+
+.subtitle {
+  font-size: 1em;
+  color: $orange;
+  margin: 0;
+  margin-bottom: 30px;
+}
+
+ul {
+  padding-left: 15px;
+  margin: 0px;
+}
+
+li {
+  list-style: none;
+
+  &:before {
+    content: '-';
+    display: inline-block;;
+    margin-right: 0.5em;
+  }
+}

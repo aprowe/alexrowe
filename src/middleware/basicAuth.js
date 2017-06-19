@@ -41,6 +41,7 @@ export default function authenticate(req, res, next) {
 
     // Attach to request
     req.user = user;
+    req.session.user_id = user._id;
 
     // Continue
     next();

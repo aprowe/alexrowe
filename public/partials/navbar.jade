@@ -1,0 +1,60 @@
+.sidebar
+  .title 
+    a(href='/') Alex Rowe
+  ul
+    -
+      let allLinks = public.partials._data.links;
+      for (let file of public.blog._contents){
+        let name = file.split('.')[0];
+        allLinks[2].links.push({ icon: 'file-o', href: 'blog/' + name, text: name });
+      }
+    
+    
+    - for (var i in allLinks) {
+      - let link = allLinks[i];
+      
+      - if (link.links) {
+        - let visible = link.href == current.path[0] ? 'visible' : '';
+        li(class="link-list #{visible}" id='#{link.href}')
+          .label
+            a(class='hidden-link' onClick='openMenu("#{link.href}")')
+            i.icon(class="fa")
+            span #{link.text}
+            
+          ul
+          
+            - for (var j in link.links) {
+              - let link2 = link.links[j];
+              - let isCurrent = current.path.join('/') == link2.href;
+              
+              li(class="#{isCurrent ? 'active' : ''}")
+                a(class='hidden-link' href="/#{link2.href}")
+                i.icon(class="fa fa-#{link2.icon}")
+                span #{link2.text}
+            - }
+      - } else {
+        - let isCurrent = current.path == link.href;
+        li(class="#{isCurrent ? 'active' : ''}")
+          a(class='hidden-link' href="/#{link.href}")
+          i.icon(class="fa fa-#{link.icon}")
+          span #{link.text}
+      - }
+    - }
+  
+script.
+  function openMenu(id) {
+    let el = document.querySelector('#' + id);
+    if (el.classList.contains('visible')) {
+      el.classList.remove('visible');
+    } else {
+      el.classList.add('visible');
+    }
+  }
+  
+
+//- li.page 
+//-   a(href='/') index
+//- li Projects
+//- li.page About
+//- li.page Blog
+//- li.console Contact

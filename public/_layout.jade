@@ -1,0 +1,12 @@
+head
+  link(rel='stylesheet' href='/styles/app.css')
+  title #{title}
+  
+body
+  .container
+    h1 #{title}
+    i.subtitle #{subtitle}
+    
+    != yield
+    
+  != partial("/partials/navbar")

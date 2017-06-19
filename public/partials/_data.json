@@ -1,0 +1,45 @@
+{
+  "links": [
+    {
+      "text": "index",
+      "icon": "file-o",
+      "page": "index",
+      "href": "index"
+    }, {
+      "text": "projects",
+      "icon": "folder-o",
+      "href": "projects",
+      "links": [{
+          "text": "evo js",
+          "icon": "file-o",
+          "href": "projects/evo"
+        }, {
+          "text": "puzzle league",
+          "icon": "file-o",
+          "href": "projects/puzzle_league"
+        }, {
+          "text": "paper loader",
+          "icon": "file-o",
+          "href": "projects/paper_loader"
+        }, {
+          "text": "evolution sim",
+          "icon": "file-o",
+          "href": "projects/evo_sim"
+        }
+      ]
+    }, {
+      "text": "blog",
+      "icon": "folder-o",
+      "href": "blog",
+      "links": []
+    }, {
+      "text": "about",
+      "icon": "file-o",
+      "href": "about"
+    }, {
+      "text": "resumé",
+      "icon": "file-o",
+      "href": "Rowe-Resume-Feb2017.pdf"
+    }
+  ]
+}

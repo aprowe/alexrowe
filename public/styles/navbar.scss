@@ -1,0 +1,119 @@
+@import "colors.scss";
+
+$sidebar-width: 200px;
+
+.sidebar {
+
+  .title {
+    box-sizing: border-box;
+    padding: 10px;
+    a {
+      color: $gutter-text-color;
+    }
+  }
+
+  box-sizing: border-box;
+  font-family: "Lucida Grande";
+  color: $gutter-text-color;
+
+  width: $sidebar-width;
+  height: 100vh;
+  position: fixed;
+
+  background: $gutter-background-color;
+
+  left: 0px;
+  top: 0px;
+
+  ul {
+    margin: 0px;
+    padding: 0px;
+  }
+
+  li {
+    position: relative;
+    box-sizing: border-box;
+    font-size: $size * 0.9;
+
+    a {
+      color: $gutter-text-color;
+    }
+
+    width: 100%;
+    box-sizing: border-box;
+    list-style: none;
+    padding: 10px;
+    padding-right: 0px;
+
+    &::before {
+      content: '';
+    }
+
+    &.active {
+      background: lighten($gutter-background-color, 10%);
+    }
+
+    &:hover:not(.active), .label:hover {
+      background: lighten($gutter-background-color, 5%);
+    }
+
+    .icon {
+      display: inline-block;
+      margin-right: 12px;
+      margin-left: -4px;
+    }
+  }
+
+  li.link-list {
+    padding: 0px;
+    cursor: pointer;
+
+    .label {
+      padding: 10px;
+      padding-left: 16px;
+    }
+
+    ul {
+      display: none;
+
+      li {
+        font-size: 0.8em;
+      }
+    }
+
+    &:hover {
+      background-color: $gutter-background-color;
+    }
+
+    &.visible {
+      ul {
+        display: block;
+      }
+
+      .label .icon:before {
+        content: '\f115';
+      }
+
+      .label .icon {
+        margin-right: 10px;
+      }
+    }
+
+    .label .icon:before {
+      content: '\f114';
+    }
+
+
+    li {
+      padding-left: 20px;
+    }
+  }
+
+  .hidden-link {
+    width: 100%;
+    height:100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+  }
+}
