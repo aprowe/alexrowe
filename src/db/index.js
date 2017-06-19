@@ -1,8 +1,8 @@
 import Monk from 'monk';
 
-import { MONGO_URL } from '../config';
+import config from '../config';
 
-let db = Monk(MONGO_URL);
+let db = Monk(config.MONGO_URL);
 let users = db.get('users');
 let sessions = db.get('sessions');
 

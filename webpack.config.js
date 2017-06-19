@@ -22,7 +22,7 @@ class BuildPlugin {
 
     // Compile HARP assets
     compiler.plugin('run', (compiler, cb) => {
-      harp.compile(__dirname + '/public', compiler.outputPath + '/public' , cb);
+      harp.compile(__dirname + '/static', compiler.outputPath + '/static' , cb);
     });
   }
 }
@@ -40,7 +40,7 @@ let config = {
   externals: [nodeExternals()],
   output: {
     path: __dirname,
-    filename: 'index.js'
+    filename: 'app.js'
   },
   module: {
     loaders: [

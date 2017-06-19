@@ -7,4 +7,10 @@ router.get('/', (req, res, next) => {
   next();
 });
 
+router.get('/test', (req, res, next) => {
+  res.json({works: true});
+  next();
+});
+
+
 export default router;

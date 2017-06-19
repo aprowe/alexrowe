@@ -86,9 +86,11 @@ var _monk2 = _interopRequireDefault(_monk);
 
 var _config = __webpack_require__(2);
 
+var _config2 = _interopRequireDefault(_config);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var db = (0, _monk2.default)(_config.MONGO_URL);
+var db = (0, _monk2.default)(_config2.default.MONGO_URL);
 var users = db.get('users');
 var sessions = db.get('sessions');
 
@@ -343,10 +345,6 @@ var _cookieParser = __webpack_require__(8);
 
 var _cookieParser2 = _interopRequireDefault(_cookieParser);
 
-var _harp = __webpack_require__(9);
-
-var _harp2 = _interopRequireDefault(_harp);
-
 var _db = __webpack_require__(0);
 
 var _db2 = _interopRequireDefault(_db);
@@ -363,9 +361,7 @@ var _routes2 = _interopRequireDefault(_routes);
 
 var _config = __webpack_require__(2);
 
-var config = _interopRequireWildcard(_config);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+var _config2 = _interopRequireDefault(_config);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -373,17 +369,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var app = (0, _express2.default)();
 
 // Define Middleware and routes
-app.use((0, _cookieParser2.default)()).use(_sessionHandler.getSession).use(_express2.default.static(__dirname + '/../public')).use('/admin', _basicAuth2.default).use(_bodyParser2.default.json()).use(_routes2.default).use(_sessionHandler.saveSession);
+app.use((0, _cookieParser2.default)()).use(_sessionHandler.getSession).use(_express2.default.static(__dirname + '/../harp'));
 
 // Only use harp for development
 if (undefined !== 'production') {
-  app.use(_harp2.default.mount(__dirname + '/../public'));
+  app.use(__webpack_require__(9).mount(__dirname + '/../harp'));
 }
 
-console.log(undefined);
+app.use('/admin', _basicAuth2.default).use(_bodyParser2.default.json()).use(_routes2.default).use(_sessionHandler.saveSession);
 
-app.listen(config.PORT, function () {
-  console.log('Listening on port ' + config.PORT);
+app.listen(_config2.default.PORT, function () {
+  console.log('Listening on port ' + _config2.default.PORT);
 });
 /* WEBPACK VAR INJECTION */}.call(exports, "src"))
 
