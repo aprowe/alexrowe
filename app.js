@@ -80,7 +80,7 @@ exports.findUser = findUser;
 exports.findSession = findSession;
 exports.insertSession = insertSession;
 
-var _monk = __webpack_require__(11);
+var _monk = __webpack_require__(12);
 
 var _monk2 = _interopRequireDefault(_monk);
 
@@ -297,6 +297,10 @@ var _express = __webpack_require__(3);
 
 var _express2 = _interopRequireDefault(_express);
 
+var _quebble = __webpack_require__(11);
+
+var _quebble2 = _interopRequireDefault(_quebble);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var router = _express2.default.Router();
@@ -306,9 +310,18 @@ router.get('/', function (req, res, next) {
   next();
 });
 
-router.get('/test', function (req, res, next) {
-  res.json({ works: true });
-  next();
+router.get('/quebble/:action', function (req, res, next) {
+  var action = _quebble2.default[req.params.action];
+
+  if (!action) {
+    res.status(400).send('Action ' + req.params.action + ' not found');
+    return;
+  }
+
+  action(req.query).then(function (status) {
+    res.json({ status: status });
+    next();
+  });
 });
 
 exports.default = router;
@@ -392,6 +405,26 @@ app.listen(_config2.default.PORT, function () {
 
 /***/ }),
 /* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var Quebble = {};
+
+Quebble.debug = function (params) {
+  console.log(JSON.stringify(params));
+  return Promise.resolve();
+};
+
+exports.default = Quebble;
+
+/***/ }),
+/* 12 */
 /***/ (function(module, exports) {
 
 module.exports = require("monk");

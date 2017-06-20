@@ -4,29 +4,29 @@ module.exports = {
     es6: true,
     node: true
   },
-  extends: "eslint:recommended",
+  extends: 'eslint:recommended',
   parserOptions: {
-    sourceType: "module"
+    sourceType: 'module'
   },
   rules: {
     'no-unused-vars': 1,
     'disallowMultipleLineBreaks': 0,
     'no-console': 0,
-    indent: [
-    "error",
-    2
+    'indent': [
+      'error',
+      2
     ],
-    "linebreak-style": [
-    "error",
-    "unix"
+    'linebreak-style': [
+      'error',
+      'unix'
     ],
     quotes: [
-    "error",
-    "single"
+      'error',
+      'single'
     ],
     semi: [
-    "error",
-    "always"
+      'error',
+      'always'
     ]
   }
 };
