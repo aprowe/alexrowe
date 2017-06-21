@@ -58,7 +58,7 @@ let serverConfig = _.merge({}, commonConfig, {
 let clientConfig = _.merge({}, commonConfig, {
   entry: './src/client/scripts/index.js',
   output: {
-    filename: 'public/client.js'
+    filename: 'assets/client.js'
   },
 });
 

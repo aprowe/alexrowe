@@ -1,4 +1,117 @@
+@import "colors.scss";
+@import "font-awesome.scss";
+
+@import "navbar.scss";
 
 body {
-  color: red;
+  background: $background-color;
+  font-family: Operator Mono;
+  // font-family: Source sans pro;
+  color: $text-color;
+  font-size: $size;
+  padding: 0px;
+  margin: 0px;
+}
+
+.container {
+  box-sizing: border-box;
+  background: $background-color;
+
+  padding: 20px;
+  margin-left: $sidebar-width;
+  height: 100vh;
+  max-width: 900px;
+}
+
+hr {
+  opacity: 0.5;
+}
+
+strong, b {
+  color: $orange;
+}
+
+emph {
+  color: $light-teal;
+}
+
+h1 {
+  color: $h1-color;
+  margin-top: 0em;
+  margin-bottom: 0em;
+  letter-spacing: 1px;
+  font-size: 3em;
+
+  &:after {
+    display: block;
+    // content: '---------------------------';
+
+    color: $text-color;
+    font-size: $size;
+  }
+}
+
+h2 {
+  font-size: $size;
+  color: $light-teal;
+  margin-bottom: 0;
+  margin-top: $size * 2;
+  &:after {
+    display: block;
+    content: '-----------------------';
+  }
+}
+
+h3 {
+  font-size: $size;
+  color: $pink;
+  margin-bottom: 0;
+  margin-top: $size * 1.5;
+}
+
+code {
+  color: $light-gray;
+}
+
+a {
+  color: $strong-orange;
+
+  text-decoration: none;
+
+  &:visited {
+    color: $strong-orange;
+  }
+
+  &:hover {
+    color: darken($strong-orange, 10%);
+  }
+
+}
+
+.date {
+  margin-top: 5px;
+  color: $red;
+  font-size: 0.8em;
+}
+
+.subtitle {
+  font-size: 1em;
+  color: $orange;
+  margin: 0;
+  margin-bottom: 30px;
+}
+
+ul {
+  padding-left: 15px;
+  margin: 0px;
+}
+
+li {
+  list-style: none;
+
+  &:before {
+    content: '-';
+    display: inline-block;;
+    margin-right: 0.5em;
+  }
 }

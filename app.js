@@ -438,7 +438,7 @@ module.exports = require("cookie-parser");
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(__dirname) {
 
 var _express = __webpack_require__(1);
 
@@ -481,23 +481,25 @@ var app = (0, _express2.default)();
 
 // Define Middleware and routes
 app.use((0, _cookieParser2.default)()).use(_sessionHandler.getSession).use(_mustache2.default
-// .use(express.static(__dirname + '/../static', {
-//   extensions: ['html']
-// }))
-
 // Make client assets available
-).use('/assets', _express2.default.static('public'));
+).use('/assets', _express2.default.static('public')
+
+// Make Harp assets available
+).use(_express2.default.static(__dirname + '/../static', {
+  extensions: ['html']
+}));
 
 // Only use harp for development
 if (undefined !== 'production') {
-  // app.use(require('harp').mount(__dirname + '/../static'));
+  app.use(__webpack_require__(17).mount(__dirname + '/../static'));
 }
 
-app.use('/', _routes2.default).use('/admin', _basicAuth2.default).use('/api', _api2.default).use(_bodyParser2.default.json()).use(_sessionHandler.saveSession);
+app.use('/app', _routes2.default).use('/admin', _basicAuth2.default).use('/api', _api2.default).use(_bodyParser2.default.json()).use(_sessionHandler.saveSession);
 
 app.listen(_config2.default.PORT, function () {
   console.log('Listening on port ' + _config2.default.PORT);
 });
+/* WEBPACK VAR INJECTION */}.call(exports, "src"))
 
 /***/ }),
 /* 13 */
@@ -538,6 +540,12 @@ module.exports = function() { var T = new H.Template({code: function (c,p,i) { v
 /***/ (function(module, exports) {
 
 module.exports = require("monk");
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports) {
+
+module.exports = require("harp");
 
 /***/ })
 /******/ ]);

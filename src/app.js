@@ -18,20 +18,21 @@ app
   .use(cookieParser())
   .use(getSession)
   .use(mustacheMiddleware)
-  // .use(express.static(__dirname + '/../static', {
-  //   extensions: ['html']
-  // }))
-
   // Make client assets available
-  .use('/assets', express.static('public'));
+  .use('/assets', express.static('assets'))
+
+  // Make Harp assets available
+  .use(express.static(__dirname + '/../static', {
+    extensions: ['html']
+  }));
 
 // Only use harp for development
 if (process.env.NODE_ENV !== 'production') {
-  // app.use(require('harp').mount(__dirname + '/../static'));
+  app.use(require('harp').mount(__dirname + '/../static'));
 }
 
 app
-  .use('/', baseRouter)
+  .use('/app', baseRouter)
   .use('/admin', basicAuth)
   .use('/api', apiRouter)
   .use(bodyParser.json())
