@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 13);
+/******/ 	return __webpack_require__(__webpack_require__.s = 12);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -130,7 +130,7 @@ exports.findUser = findUser;
 exports.findSession = findSession;
 exports.insertSession = insertSession;
 
-var _monk = __webpack_require__(17);
+var _monk = __webpack_require__(16);
 
 var _monk2 = _interopRequireDefault(_monk);
 
@@ -182,7 +182,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = authenticate;
 
-var _db = __webpack_require__(3);
+var _models = __webpack_require__(3);
 
 var _lodash = __webpack_require__(0);
 
@@ -221,7 +221,7 @@ function authenticate(req, res, next) {
     return fail(res);
   }
 
-  (0, _db.findUser)(creds[0], creds[1]).then(function (user) {
+  (0, _models.findUser)(creds[0], creds[1]).then(function (user) {
     if (!user) {
       return fail(res);
     }
@@ -271,7 +271,7 @@ exports.default = function (req, res, next) {
     res.send(page);
   };
 
-  res.mustache.template = TEMPLATES.index;
+  res.mustache.template = TEMPLATES.base;
   next();
 };
 
@@ -279,15 +279,15 @@ var _lodash = __webpack_require__(0);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
-var _index = __webpack_require__(16);
+var _base = __webpack_require__(15);
 
-var _index2 = _interopRequireDefault(_index);
+var _base2 = _interopRequireDefault(_base);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Object of all templates
 var TEMPLATES = exports.TEMPLATES = {
-  index: _index2.default
+  base: _base2.default
 };
 
 // Import templates to build them in at compile time
@@ -305,7 +305,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.getSession = getSession;
 exports.saveSession = saveSession;
 
-var _db = __webpack_require__(3);
+var _models = __webpack_require__(3);
 
 var _lodash = __webpack_require__(0);
 
@@ -318,7 +318,7 @@ function getSession(req, res, next) {
 
   // If a session is present
   if (session_id) {
-    return (0, _db.findSession)(session_id).then(function (session) {
+    return (0, _models.findSession)(session_id).then(function (session) {
       req.session = session;
       next();
     });
@@ -330,7 +330,7 @@ function getSession(req, res, next) {
   };
 
   // Create a new session in the database
-  return (0, _db.insertSession)(session).then(function (session) {
+  return (0, _models.insertSession)(session).then(function (session) {
     res.cookie('session_id', session._id);
     req.session = session;
     next();
@@ -339,7 +339,7 @@ function getSession(req, res, next) {
 
 function saveSession(req, res, next) {
   if (req.session) {
-    (0, _db.insertSession)(req.session);
+    (0, _models.insertSession)(req.session);
   }
 
   next();
@@ -360,7 +360,7 @@ var _express = __webpack_require__(1);
 
 var _express2 = _interopRequireDefault(_express);
 
-var _qmote = __webpack_require__(14);
+var _qmote = __webpack_require__(13);
 
 var _qmote2 = _interopRequireDefault(_qmote);
 
@@ -406,7 +406,7 @@ var _express = __webpack_require__(1);
 
 var _express2 = _interopRequireDefault(_express);
 
-var _index = __webpack_require__(15);
+var _index = __webpack_require__(14);
 
 var _index2 = _interopRequireDefault(_index);
 
@@ -434,8 +434,7 @@ module.exports = require("body-parser");
 module.exports = require("cookie-parser");
 
 /***/ }),
-/* 12 */,
-/* 13 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -501,7 +500,7 @@ app.listen(_config2.default.PORT, function () {
 });
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -521,21 +520,21 @@ QMote.debug = function (params) {
 exports.default = QMote;
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var H = __webpack_require__(4);
 module.exports = function() { var T = new H.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<h2 id=\"welcome-foo-\">Welcome ");t.b(t.v(t.f("foo",c,p,0)));t.b("</h2>");t.b("\n");return t.fl(); },partials: {}, subs: {  }}, "<h2 id=\"welcome-foo-\">Welcome {{ foo }}</h2>\n", H);return T.render.apply(T, arguments); };
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var H = __webpack_require__(4);
 module.exports = function() { var T = new H.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<html>");t.b("\n" + i);t.b("  <head>");t.b("\n" + i);t.b("    <script src='assets/client.js'></script>");t.b("\n" + i);t.b("    <script id='_data'> ");t.b(t.t(t.f("script",c,p,0)));t.b(" </script>");t.b("\n" + i);t.b("  </head>");t.b("\n" + i);t.b("  <body>");t.b("\n" + i);t.b("    ");t.b(t.t(t.f("body",c,p,0)));t.b("\n" + i);t.b("  </body>");t.b("\n" + i);t.b("</html>");t.b("\n");return t.fl(); },partials: {}, subs: {  }}, "<html>\n  <head>\n    <script src='assets/client.js'></script>\n    <script id='_data'> {{{ script }}} </script>\n  </head>\n  <body>\n    {{{ body }}}\n  </body>\n</html>\n", H);return T.render.apply(T, arguments); };
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports) {
 
 module.exports = require("monk");

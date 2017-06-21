@@ -21,7 +21,7 @@
     "mongodb": "^2.2.28",
     "monk": "^6.0.0",
     "mustache": "^2.3.0",
-    "mustache-loader": "^0.4.1",
+    "mustache-loader": "^0.4.1"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

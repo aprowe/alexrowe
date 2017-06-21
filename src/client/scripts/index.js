@@ -1,13 +1,13 @@
 
-// Base styles
-import '../views/styles/style.scss';
-
 import EventEmitter from 'events';
 
-let globalEvents = new EventEmitter;
+// Base styles
+import '../styles/style.scss';
 
+let globalEvents = new EventEmitter;
 window.globalEvents = globalEvents;
 
+// Initialize with data
 globalEvents.on('receive_data', function (data) {
   console.log(data);
 });

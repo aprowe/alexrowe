@@ -1,6 +1,6 @@
 import express from 'express';
 
-import template from '../views/index.md';
+import template from '../client/views/index.md';
 
 const router = express.Router();
 

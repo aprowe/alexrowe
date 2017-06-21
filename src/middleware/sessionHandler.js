@@ -1,4 +1,4 @@
-import { insertSession, findSession } from '../db';
+import { insertSession, findSession } from '../models';
 import _ from 'lodash';
 
 

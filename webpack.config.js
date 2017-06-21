@@ -3,6 +3,7 @@ let webpack = require('webpack');
 let _ = require('lodash');
 let harp  = require('harp');
 let fs = require('fs');
+let path = require('path');
 
 // Default env
 const PROD = process.env.NODE_ENV == 'production';
@@ -29,6 +30,12 @@ let commonConfig = {
       loader: 'style-loader!css-loader!sass-loader',
     }]
   },
+  resolve: {
+    alias: {
+      views: path.resolve(__dirname, 'src/client/views'),
+      client: path.resolve(__dirname, 'src/client'),
+    },
+  },
   output: {
     path: __dirname + (PROD ? '/dist' : ''),
   }
@@ -49,7 +56,7 @@ let serverConfig = _.merge({}, commonConfig, {
 
 // Client config object
 let clientConfig = _.merge({}, commonConfig, {
-  entry: './src/client/index.js',
+  entry: './src/client/scripts/index.js',
   output: {
     filename: 'public/client.js'
   },

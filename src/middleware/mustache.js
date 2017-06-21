@@ -1,14 +1,12 @@
 import _ from 'lodash';
 
 // Import templates to build them in at compile time
-import index from '../views/templates/index.html';
+import base from '../client/templates/base.html';
 
 // Object of all templates
 export const TEMPLATES = {
-  index
+  base
 };
-
-
 
 export default function (req, res, next) {
   res.mustache = function(partial, data, templateData){
@@ -35,6 +33,6 @@ export default function (req, res, next) {
     res.send(page);
   };
 
-  res.mustache.template = TEMPLATES.index;
+  res.mustache.template = TEMPLATES.base;
   next();
 }

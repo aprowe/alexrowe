@@ -1,4 +1,4 @@
-import { findUser } from '../db';
+import { findUser } from '../models';
 import _ from 'lodash';
 
 function fail (res) {
