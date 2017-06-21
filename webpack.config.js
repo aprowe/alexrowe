@@ -4,11 +4,59 @@ let _ = require('lodash');
 let harp  = require('harp');
 let fs = require('fs');
 
+// Default env
+const PROD = process.env.NODE_ENV == 'production';
+
+// Config that server and client share
+let commonConfig = {
+  // Provide the Node environment
+  plugins: _.compact([
+    new webpack.EnvironmentPlugin(['NODE_ENV']),
+    PROD && new webpack.optimize.UglifyJsPlugin({ compress: true }),
+  ]),
+  module: {
+    loaders: [{
+      test: /\.js$/,
+      loader: 'babel-loader',
+    }, {
+      test: /\.html$/,
+      loader: 'mustache-loader',
+    }, {
+      test: /\.md$/,
+      loader: 'mustache-loader!markdown-loader',
+    }, {
+      test: /\.scss$/,
+      loader: 'style-loader!css-loader!sass-loader',
+    }]
+  },
+  output: {
+    path: __dirname + (PROD ? '/dist' : ''),
+  }
+};
+
+// Main Webpack Config Object
+let serverConfig = _.merge({}, commonConfig, {
+  entry: './src/app.js',
+  target: 'node',
+  node: {
+    __dirname: true
+  },
+  externals: [nodeExternals()],
+  output: {
+    filename: 'app.js'
+  }
+});
+
+// Client config object
+let clientConfig = _.merge({}, commonConfig, {
+  entry: './src/client/index.js',
+  output: {
+    filename: 'public/client.js'
+  },
+});
+
 // Easy Copy Function
 const copy = (src, dst) => fs.createReadStream(src).pipe(fs.createWriteStream(dst));
-
-// Default env
-process.env.NODE_ENV == process.env.NODE_ENV || 'development';
 
 // Plugin to do custom tasks
 class BuildPlugin {
@@ -27,49 +75,7 @@ class BuildPlugin {
   }
 }
 
-// Main Webpack Config Object
-let config = {
-  entry: './src/app.js',
-  target: 'node',
-  node: {
-    __dirname: true
-  },
-  plugins: [
-    new webpack.EnvironmentPlugin(['NODE_ENV'])
-  ],
-  externals: [nodeExternals()],
-  output: {
-    path: __dirname,
-    filename: 'app.js'
-  },
-  module: {
-    loaders: [
-      {
-        test: /\.js$/,
-        loader: 'babel-loader',
-      }
-    ]
-  }
-};
-
-// Customizer function to aid merging
-function customizer(objValue, srcValue) {
-  if (_.isArray(objValue)) {
-    return objValue.concat(srcValue);
-  }
-}
-
 // Merge configs if production
-if (process.env.NODE_ENV == 'production') {
-  config = _.mergeWith(config, {
-    output: {
-      path: __dirname + '/dist'
-    },
-    plugins: [
-      new webpack.optimize.UglifyJsPlugin({ compress: true }),
-      new BuildPlugin
-    ]
-  }, customizer);
-}
+PROD && serverConfig.plugins.push(new BuildPlugin);
 
-module.exports = config;
+module.exports = [serverConfig, clientConfig];

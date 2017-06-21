@@ -1,6 +1,6 @@
 import express from 'express';
 
-import QMote from './lib/qmote';
+import QMote from '../lib/qmote';
 
 const router = express.Router();
 

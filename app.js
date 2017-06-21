@@ -63,11 +63,61 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 10);
+/******/ 	return __webpack_require__(__webpack_require__.s = 13);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports) {
+
+module.exports = require("lodash");
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports) {
+
+module.exports = require("express");
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _lodash = __webpack_require__(0);
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// Development / default Config
+var config = {
+  PORT: 3000,
+  MONGO_URL: 'mongodb://localhost/api'
+};
+
+// Production Config
+/**
+ * Config Variables
+ */
+
+var prodConfig = {
+  PORT: 80
+};
+
+if (undefined == 'production') {
+  config = _lodash2.default.merge(config, prodConfig);
+}
+
+exports.default = config;
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -80,7 +130,7 @@ exports.findUser = findUser;
 exports.findSession = findSession;
 exports.insertSession = insertSession;
 
-var _monk = __webpack_require__(12);
+var _monk = __webpack_require__(17);
 
 var _monk2 = _interopRequireDefault(_monk);
 
@@ -115,57 +165,13 @@ function insertSession(session) {
 }
 
 /***/ }),
-/* 1 */
-/***/ (function(module, exports) {
-
-module.exports = require("lodash");
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _lodash = __webpack_require__(1);
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// Development / default Config
-var config = {
-  PORT: 3000,
-  MONGO_URL: 'mongodb://localhost/api'
-};
-
-// Production Config
-/**
- * Config Variables
- */
-
-var prodConfig = {
-  PORT: 80
-};
-
-if (undefined == 'production') {
-  config = _lodash2.default.merge(config, prodConfig);
-}
-
-exports.default = config;
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports) {
-
-module.exports = require("express");
-
-/***/ }),
 /* 4 */
+/***/ (function(module, exports) {
+
+module.exports = require("hogan.js");
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -176,9 +182,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = authenticate;
 
-var _db = __webpack_require__(0);
+var _db = __webpack_require__(3);
 
-var _lodash = __webpack_require__(1);
+var _lodash = __webpack_require__(0);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -230,7 +236,64 @@ function authenticate(req, res, next) {
 }
 
 /***/ }),
-/* 5 */
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.TEMPLATES = undefined;
+
+exports.default = function (req, res, next) {
+  res.mustache = function (partial, data, templateData) {
+
+    // Get the appropriate template
+    var templateFn = res.mustache.template;
+
+    if (!templateFn) {
+      throw 'Invalid templates: ' + res.mustache.template;
+    }
+
+    // Render the page
+    var page = templateFn(_lodash2.default.merge({
+      head: '',
+
+      // Render the partial
+      body: partial(data),
+
+      // Give the data to the javascript
+      script: 'window.globalEvents.emit(        \'receive_data\', ' + JSON.stringify(data) + ');'
+    }, templateData));
+
+    res.send(page);
+  };
+
+  res.mustache.template = TEMPLATES.index;
+  next();
+};
+
+var _lodash = __webpack_require__(0);
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+var _index = __webpack_require__(16);
+
+var _index2 = _interopRequireDefault(_index);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// Object of all templates
+var TEMPLATES = exports.TEMPLATES = {
+  index: _index2.default
+};
+
+// Import templates to build them in at compile time
+
+/***/ }),
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -242,9 +305,9 @@ Object.defineProperty(exports, "__esModule", {
 exports.getSession = getSession;
 exports.saveSession = saveSession;
 
-var _db = __webpack_require__(0);
+var _db = __webpack_require__(3);
 
-var _lodash = __webpack_require__(1);
+var _lodash = __webpack_require__(0);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -283,7 +346,7 @@ function saveSession(req, res, next) {
 }
 
 /***/ }),
-/* 6 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -293,13 +356,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _express = __webpack_require__(3);
+var _express = __webpack_require__(1);
 
 var _express2 = _interopRequireDefault(_express);
 
-var _quebble = __webpack_require__(11);
+var _qmote = __webpack_require__(14);
 
-var _quebble2 = _interopRequireDefault(_quebble);
+var _qmote2 = _interopRequireDefault(_qmote);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -310,9 +373,11 @@ router.get('/', function (req, res, next) {
   next();
 });
 
-router.get('/quebble/:action', function (req, res, next) {
-  var action = _quebble2.default[req.params.action];
+// QMote Actions
+router.get('/qmote/:action', function (req, res, next) {
+  var action = _qmote2.default[req.params.action];
 
+  console.log(JSON.stringify(req.headers));
   if (!action) {
     res.status(400).send('Action ' + req.params.action + ' not found');
     return;
@@ -327,53 +392,82 @@ router.get('/quebble/:action', function (req, res, next) {
 exports.default = router;
 
 /***/ }),
-/* 7 */
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _express = __webpack_require__(1);
+
+var _express2 = _interopRequireDefault(_express);
+
+var _index = __webpack_require__(15);
+
+var _index2 = _interopRequireDefault(_index);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var router = _express2.default.Router();
+
+router.get('/', function (req, res, next) {
+  res.mustache(_index2.default, { foo: 'bar' });
+  next();
+});
+
+exports.default = router;
+
+/***/ }),
+/* 10 */
 /***/ (function(module, exports) {
 
 module.exports = require("body-parser");
 
 /***/ }),
-/* 8 */
+/* 11 */
 /***/ (function(module, exports) {
 
 module.exports = require("cookie-parser");
 
 /***/ }),
-/* 9 */
-/***/ (function(module, exports) {
-
-module.exports = require("harp");
-
-/***/ }),
-/* 10 */
+/* 12 */,
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(__dirname) {
 
-var _express = __webpack_require__(3);
+
+var _express = __webpack_require__(1);
 
 var _express2 = _interopRequireDefault(_express);
 
-var _bodyParser = __webpack_require__(7);
+var _bodyParser = __webpack_require__(10);
 
 var _bodyParser2 = _interopRequireDefault(_bodyParser);
 
-var _cookieParser = __webpack_require__(8);
+var _cookieParser = __webpack_require__(11);
 
 var _cookieParser2 = _interopRequireDefault(_cookieParser);
 
-var _db = __webpack_require__(0);
-
-var _db2 = _interopRequireDefault(_db);
-
-var _basicAuth = __webpack_require__(4);
+var _basicAuth = __webpack_require__(5);
 
 var _basicAuth2 = _interopRequireDefault(_basicAuth);
 
-var _sessionHandler = __webpack_require__(5);
+var _sessionHandler = __webpack_require__(7);
 
-var _routes = __webpack_require__(6);
+var _mustache = __webpack_require__(6);
+
+var _mustache2 = _interopRequireDefault(_mustache);
+
+var _api = __webpack_require__(8);
+
+var _api2 = _interopRequireDefault(_api);
+
+var _routes = __webpack_require__(9);
 
 var _routes2 = _interopRequireDefault(_routes);
 
@@ -387,24 +481,27 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var app = (0, _express2.default)();
 
 // Define Middleware and routes
-app.use((0, _cookieParser2.default)()).use(_sessionHandler.getSession).use(_express2.default.static(__dirname + '/../static', {
-  extensions: ['html']
-}));
+app.use((0, _cookieParser2.default)()).use(_sessionHandler.getSession).use(_mustache2.default
+// .use(express.static(__dirname + '/../static', {
+//   extensions: ['html']
+// }))
+
+// Make client assets available
+).use('/assets', _express2.default.static('public'));
 
 // Only use harp for development
 if (undefined !== 'production') {
-  app.use(__webpack_require__(9).mount(__dirname + '/../static'));
+  // app.use(require('harp').mount(__dirname + '/../static'));
 }
 
-app.use('/admin', _basicAuth2.default).use(_bodyParser2.default.json()).use(_routes2.default).use(_sessionHandler.saveSession);
+app.use('/', _routes2.default).use('/admin', _basicAuth2.default).use('/api', _api2.default).use(_bodyParser2.default.json()).use(_sessionHandler.saveSession);
 
 app.listen(_config2.default.PORT, function () {
   console.log('Listening on port ' + _config2.default.PORT);
 });
-/* WEBPACK VAR INJECTION */}.call(exports, "src"))
 
 /***/ }),
-/* 11 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -414,17 +511,31 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var Quebble = {};
+var QMote = {};
 
-Quebble.debug = function (params) {
+QMote.debug = function (params) {
   console.log(JSON.stringify(params));
-  return Promise.resolve();
+  return Promise.resolve('success');
 };
 
-exports.default = Quebble;
+exports.default = QMote;
 
 /***/ }),
-/* 12 */
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var H = __webpack_require__(4);
+module.exports = function() { var T = new H.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<h2 id=\"welcome-foo-\">Welcome ");t.b(t.v(t.f("foo",c,p,0)));t.b("</h2>");t.b("\n");return t.fl(); },partials: {}, subs: {  }}, "<h2 id=\"welcome-foo-\">Welcome {{ foo }}</h2>\n", H);return T.render.apply(T, arguments); };
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var H = __webpack_require__(4);
+module.exports = function() { var T = new H.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<html>");t.b("\n" + i);t.b("  <head>");t.b("\n" + i);t.b("    <script src='assets/client.js'></script>");t.b("\n" + i);t.b("    <script id='_data'> ");t.b(t.t(t.f("script",c,p,0)));t.b(" </script>");t.b("\n" + i);t.b("  </head>");t.b("\n" + i);t.b("  <body>");t.b("\n" + i);t.b("    ");t.b(t.t(t.f("body",c,p,0)));t.b("\n" + i);t.b("  </body>");t.b("\n" + i);t.b("</html>");t.b("\n");return t.fl(); },partials: {}, subs: {  }}, "<html>\n  <head>\n    <script src='assets/client.js'></script>\n    <script id='_data'> {{{ script }}} </script>\n  </head>\n  <body>\n    {{{ body }}}\n  </body>\n</html>\n", H);return T.render.apply(T, arguments); };
+
+/***/ }),
+/* 17 */
 /***/ (function(module, exports) {
 
 module.exports = require("monk");
