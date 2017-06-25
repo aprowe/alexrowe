@@ -7,6 +7,7 @@ import { getSession, saveSession } from './middleware/sessionHandler';
 import mustacheMiddleware from './middleware/mustache';
 
 import apiRouter from './routes/api';
+import lyricsRouter from './routes/lyrics';
 import baseRouter from './routes';
 import config from './config';
 
@@ -35,6 +36,7 @@ app
   .use('/app', baseRouter)
   .use('/admin', basicAuth)
   .use('/api', apiRouter)
+  .use('/api/lyrics', lyricsRouter)
   .use(bodyParser.json())
   .use(saveSession)
   ;

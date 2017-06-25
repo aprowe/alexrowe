@@ -14,6 +14,10 @@ let commonConfig = {
   plugins: _.compact([
     new webpack.EnvironmentPlugin(['NODE_ENV']),
     PROD && new webpack.optimize.UglifyJsPlugin({ compress: true }),
+    new webpack.ProvidePlugin({
+      _: 'lodash',
+      async: 'async'
+    })
   ]),
   module: {
     loaders: [{

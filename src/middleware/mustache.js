@@ -26,8 +26,9 @@ export default function (req, res, next) {
       body: partial(data),
 
       // Give the data to the javascript
-      script: `window.globalEvents.emit(\
+      data: `window.globalEvents.emit(\
         'receive_data', ${JSON.stringify(data)});`,
+
     }, templateData));
 
     res.send(page);

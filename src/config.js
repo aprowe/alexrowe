@@ -8,6 +8,7 @@ import _ from 'lodash';
 let config = {
   PORT: 3000,
   MONGO_URL: 'mongodb://localhost/api',
+  LYRICS_DB_URL: 'mongodb://localhost/lyrics',
 };
 
 // Production Config

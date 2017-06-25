@@ -1,6 +1,7 @@
 import express from 'express';
 
 import QMote from '../lib/qmote';
+import PageController from '../controllers/page';
 
 const router = express.Router();
 
@@ -24,5 +25,8 @@ router.get('/qmote/:action', (req, res, next) => {
     next();
   });
 });
+
+router.get('/folder', PageController.folders);
+router.get('/page/create', PageController.create);
 
 export default router;

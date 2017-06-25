@@ -1,6 +1,10 @@
 import Monk from 'monk';
+import mongoose from 'mongoose';
+import bluebird from 'bluebird';
 
 import config from '../config';
+
+mongoose.Promise = bluebird;
 
 let db = Monk(config.MONGO_URL);
 let users = db.get('users');

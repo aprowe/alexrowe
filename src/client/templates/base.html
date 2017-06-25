@@ -1,8 +1,11 @@
 <html>
   <head>
     <script src='assets/client.js'></script>
-    <script id='_data'> {{{ script }}} </script>
+    <script id='_data'> {{{ data }}} </script>
   </head>
+    {{#script}}
+      <script src='assets/{{script}}'></script>
+    {{/script}}
   <body>
     {{{ body }}}
   </body>
