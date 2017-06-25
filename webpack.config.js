@@ -38,6 +38,7 @@ let commonConfig = {
     alias: {
       views: path.resolve(__dirname, 'src/client/views'),
       client: path.resolve(__dirname, 'src/client'),
+      config: path.resolve(__dirname, 'src/config.js'),
     },
   },
   output: {
@@ -47,7 +48,7 @@ let commonConfig = {
 
 // Main Webpack Config Object
 let serverConfig = _.merge({}, commonConfig, {
-  entry: './src/app.js',
+  entry: ['regenerator-runtime/runtime', './src/app.js'],
   target: 'node',
   node: {
     __dirname: true

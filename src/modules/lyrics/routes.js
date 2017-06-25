@@ -1,8 +1,7 @@
 import express from 'express';
-import _ from 'lodash';
 
-import songController from '../controllers/lyrics/songs';
-import artistController from '../controllers/lyrics/artists';
+import songController from './controllers/songs';
+import artistController from './controllers/artists';
 
 const router = express.Router();
 
@@ -11,11 +10,9 @@ let createRoute = fn => {
     let query = req.query;
 
     // Type cast numbers
-    for (let i in query) {
-      // if (RegExp.match(/[0-9]*(.|)[0-9]+/,query[i])) {
-        // query[i] = Number(query[i]);
-      // }
-    }
+    query = _.mapValues(query, val => {
+      return !isNaN(val) ? Number(val) : val;
+    });
 
     fn(query, req).then(json => {
       res.json(json)

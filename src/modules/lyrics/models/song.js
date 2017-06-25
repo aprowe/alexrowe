@@ -1,9 +1,8 @@
 import mongoose from 'mongoose';
-import config from '../../config';
 
-const COLLECTION_NAME = 'artists';
+import connection from './db';
 
-let connection = mongoose.createConnection(config.LYRICS_DB_URL);
+const COLLECTION_NAME = 'songs';
 
 const schema = new mongoose.Schema({
   id: {
@@ -21,13 +20,20 @@ const schema = new mongoose.Schema({
     type: String,
   },
 
-  songs: [{
+  lyrics: {
+    type: String,
+  },
+
+  artist_id: {
     type: Number,
-    ref: 'songs',
-  }],
+    ref: 'artists',
+  },
 
   analysis: {
     language: String,
+    stantzas: Number,
+    lines: Number,
+    length: Number,
     score: Number,
     percent: Number,
   },
